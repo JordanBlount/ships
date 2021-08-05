@@ -50,6 +50,7 @@ let playRound = () => {
         if(!enemyShips[0].isDead()) {
             myShip.attack(enemyShips[0]);
             currentTurn = 2;
+            playRound();
         } else {
             // Checks to see if the enemy still has ships + this 
             // could check if the mother ship is up next
@@ -83,9 +84,10 @@ let nextMove = () => {
 let startGame = () => {
     let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
     if(attack == "attack") {
+        createShips();
         playRound();
     } else if(attack == "retreat") {
-        
+        retreat();
     }
 }
 
@@ -96,24 +98,28 @@ let gameOver = () => {
         resetGame();
         startGame();
     } else if(!myShip.isDead() && enemyShips.length <= 0) {
-        alert("You haved defended Earth from the enemy!");
+        alert("You have defended Earth from the enemy!");
         resetGame();
         startGame();
     }
 }
 
 let resetGame = () => {
-    
+    currentTurn = 1;
+    enemyShips = [];
+    myShip = null;
 }
 
 let retreat = () => {
-
+    alert("You have chosen to retreat from the battle!");
+    resetGame();
+    startGame();
 }
 
 let createShips = () => {
     myShip = new Ship(20, 5, 0.7, 0);
     for(i = 0; i < 6; i++) {
-        // Add random values in here using Math.random();
+        // TODO: Add random values in here using Math.random();
         let ship = new Ship(0, 0, 0, 0, 0);
         enemyShips.push(ship);
     }

@@ -27,7 +27,7 @@ class Ship {
 
     // Checks to see if the ship has been destroyed
     isDead() {
-        return ship.hull <= 0;
+        return this.hull <= 0;
     }
 }
 
@@ -45,27 +45,26 @@ let enemyShips = [];
 //       and the player has an option to attack/retreat
 let playRound = () => {
     // Checking to see whose turn it is
-    if(currentTurn == 1) {
-        // Checks to see if the enemies ship is not dead and there are still ships left.
-        if(!enemyShips[0].isDead() && enemyShips.length > 0) {
+    if(currentTurn == 1 && !myShip.isDead()) {
+        // Checks to see if the enemies ship is not dead
+        if(!enemyShips[0].isDead()) {
             myShip.attack(enemyShips[0]);
             currentTurn = 2;
         } else {
-            gameOver();
+            // Checks to see if the enemy still has ships + this 
+            // could check if the mother ship is up next
+            if(enemyShips.length > 0) {
+                removeShip();
+                nextMove();
+            } else {
+                gameOver();
+            }
         }
-
-        // TODO: Add this in the correct location
-        if(enemyShips[0].isDead() && enemyShips.length > 0) {
-            // Removes the destroyed enemy ship from the game
-            removeShip();
-            // Ask if the player wants to continue or retreat
-            nextMove();
-        }
-
     } else {
         if(!myShip.isDead()) {
             enemyShips[0].attack(myShip);
             currentTurn = 2;
+            playRound();
         } else { 
             gameOver();
         }

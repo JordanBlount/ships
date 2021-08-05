@@ -53,6 +53,15 @@ let playRound = () => {
         } else {
             gameOver();
         }
+
+        // TODO: Add this in the correct location
+        if(enemyShips[0].isDead() && enemyShips.length > 0) {
+            // Removes the destroyed enemy ship from the game
+            removeShip();
+            // Ask if the player wants to continue or retreat
+            nextMove();
+        }
+
     } else {
         if(!myShip.isDead()) {
             enemyShips[0].attack(myShip);
@@ -60,6 +69,24 @@ let playRound = () => {
         } else { 
             gameOver();
         }
+    }
+}
+
+let nextMove = () => {
+    let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
+    if(attack == "attack") {
+        playRound();
+    } else if(attack == "retreat") {
+        retreat();
+    }
+}
+
+let startGame = () => {
+    let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
+    if(attack == "attack") {
+        playRound();
+    } else if(attack == "retreat") {
+        
     }
 }
 
@@ -76,17 +103,12 @@ let gameOver = () => {
     }
 }
 
-let startGame = () => {
-    let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
-    if(attack == "attack") {
-        playRound();
-    } else if(attack == "retreat") {
-        
-    }
-}
-
 let resetGame = () => {
     
+}
+
+let retreat = () => {
+
 }
 
 let createShips = () => {
@@ -99,6 +121,8 @@ let createShips = () => {
 }
 
 // TODO: Clean up this code
+// TODO: Decide if I want the first value to be removed or the last.
+//       This will change up my code a little bit.
 // This could probably be done better by slicing or something to remove it.
 let removeShip = (ship) => {
     enemyShips.shift();

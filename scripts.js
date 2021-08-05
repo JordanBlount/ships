@@ -8,41 +8,56 @@ class Ship {
     }
 
     attack(ship) {
-        if(this.accuracy > ship.accuracy) {
-            if(ship.shields > 0) {
-                ship.shields -= 1;
-            } else {
-                ship.hull - this.firepower;
-            }
+        // Checks to see if the random number is less than or equal to 
+        // the accuracy
+        if(Math.random() <= this.accuracy) {
+            ship.hit(this.firepower);
         }
     }
 
+    hit(points) {
+        // If the ship has sheilds, removes one of them
+        if(this.shields > 0) {
+            this.shields -= 1;
+        } else {
+            // If the ship has no shields, it removes HP
+            this.hull -= points;
+        }
+    }
+
+    // Checks to see if the ship has been destroyed
     isDead() {
         return ship.hull <= 0;
     }
 }
 
-let myShip = new Ship(20, 5, 0.7, 0);
-
-let enemyShips = [];
-
+// 1 is my turn
+// 2 is enemies turn
 let currentTurn = 1;
 
+let myShip = new Ship(20, 5, 0.7, 0);
+let enemyShips = [];
 
 
+// TODO: Check through this logic again because we want to give a prompt
+//       to retreat if the enemy ship (that we were previously attacking)
+//       has been destroyed so that it can be removed from the array
+//       and the player has an option to attack/retreat
 let playRound = () => {
     // Checking to see whose turn it is
     if(currentTurn == 1) {
-        myShip.attack(enemyShips[0]);
         // Checks to see if the enemies ship is not dead and there are still ships left.
         if(!enemyShips[0].isDead() && enemyShips.length > 0) {
+            myShip.attack(enemyShips[0]);
             currentTurn = 2;
         } else {
             gameOver();
         }
     } else {
-        enemyShips[0].attack(myShip);
-        if(myShip.isDead()) {
+        if(!myShip.isDead()) {
+            enemyShips[0].attack(myShip);
+            currentTurn = 2;
+        } else { 
             gameOver();
         }
     }
@@ -81,4 +96,10 @@ let createShips = () => {
         let ship = new Ship(0, 0, 0, 0, 0);
         enemyShips.push(ship);
     }
+}
+
+// TODO: Clean up this code
+// This could probably be done better by slicing or something to remove it.
+let removeShip = (ship) => {
+    enemyShips.shift();
 }

@@ -10,7 +10,10 @@ class Ship {
     attack(ship) {
         // Checks to see if the random number is less than or equal to 
         // the accuracy
+        console.log(ship);
+        console.log(`Opposing ship hull: ` + ship.hull)
         if(Math.random() <= this.accuracy) {
+            console.log("The attack was successful " + this.firepower);
             ship.hit(this.firepower);
         }
     }
@@ -35,89 +38,8 @@ class Ship {
 // 2 is enemies turn
 let currentTurn = 1;
 
-let myShip = new Ship(20, 5, 0.7, 0);
+let myShip = null;
 let enemyShips = [];
-
-
-// TODO: Check through this logic again because we want to give a prompt
-//       to retreat if the enemy ship (that we were previously attacking)
-//       has been destroyed so that it can be removed from the array
-//       and the player has an option to attack/retreat
-let playRound = () => {
-    // Checking to see whose turn it is
-    if(currentTurn == 1 && !myShip.isDead()) {
-        // Checks to see if the enemies ship is not dead
-        if(!enemyShips[0].isDead()) {  
-            let hp = enemyShips[0].hull;
-            myShip.attack(enemyShips[0]);
-            if(hp == enemyShips[0]) {
-                alert("You missed this enemies ship!");
-            }
-            currentTurn = 2;
-            playRound();
-        } else {
-            // Checks to see if the enemy still has ships + this 
-            // could check if the mother ship is up next
-            if(enemyShips.length > 0) {
-                removeShip();
-                nextMove();
-            } else {
-                gameOver();
-            }
-        }
-    } else {
-        if(!myShip.isDead()) {
-            let hp = myShip.hull;
-            enemyShips[0].attack(myShip);
-            if(hp == myShip.hull) {
-                alert("The enemy missed your ship");
-            }
-            currentTurn = 2;
-            playRound();
-        } else { 
-            gameOver();
-        }
-    }
-}
-
-let nextMove = () => {
-    let value = `[Current Health: ${myShip.hull}][Target Health: ${enemyShips[0].hull}][Enemies Left: ${enemyShips.length}]`;
-    let attack = prompt(value, "attack/retreat");
-    attack.toLowerCase();
-    if(attack === "attack") {
-        playRound();
-    } else if(attack === "retreat") {
-        retreat();
-    } else {
-        // Should only ever happen if someone puts a random value
-        nextMove();
-    }
-}
-
-startGame();
-
-let startGame = () => {
-    let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
-    if(attack == "attack") {
-        createShips();
-        playRound();
-    } else if(attack == "retreat") {
-        retreat();
-    }
-}
-
-let gameOver = () => {
-    // Checks to see if my ship is dead
-    if(myShip.isDead() && enemyShips.length > 0) {
-        alert("The enemy has destroyed you!");
-        resetGame();
-        startGame();
-    } else if(!myShip.isDead() && enemyShips.length <= 0) {
-        alert("You have defended Earth from the enemy!");
-        resetGame();
-        startGame();
-    }
-}
 
 let resetGame = () => {
     currentTurn = 1;
@@ -151,7 +73,6 @@ let createShips = () => {
         let ship = new Ship(hull, firepower, accuracy, 0);
         enemyShips.push(ship);
     }
-    //console.log(`[Current Health: ${myShip.hull}][Target Health: ${enemyShips[0].hull}][Enemies Left: ${enemyShips.length}]`);
 }
 
 // TODO: Clean up this code
@@ -161,3 +82,105 @@ let createShips = () => {
 let removeShip = (ship) => {
     enemyShips.shift();
 }
+
+let nextMove = () => {
+    let value = `[Current Health: ${myShip.hull}][Target Health: ${enemyShips[0].hull}][Enemies Left: ${enemyShips.length}]`;
+    let attack = prompt(value, "attack/retreat");
+    attack.toLowerCase();
+    if(attack === "attack") {
+        playRound();
+    } else if(attack === "retreat") {
+        retreat();
+    } else {
+        // Should only ever happen if someone puts a random value
+        nextMove();
+    }
+}
+
+let gameOver = () => {
+    // Checks to see if my ship is dead
+    console.log("This game should be over.");
+    if(myShip.isDead()) {
+        alert("The enemy has destroyed you!");
+        resetGame();
+        startGame();
+    } else if(!myShip.isDead()) {
+        alert("You have defended Earth from the enemy!");
+        resetGame();
+        startGame();
+    }
+}
+
+// Check through this logic again because we want to give a prompt
+// to retreat if the enemy ship (that we were previously attacking)
+// has been destroyed so that it can be removed from the array
+// and the player has an option to attack/retreat
+let playRound = () => {
+    // Checking to see whose turn it is
+    console.log("Enemies left: " + enemyShips.length);
+    if(currentTurn == 1) {
+        if(!myShip.isDead()) {
+            // Checks to see if the enemies ship is not dead
+            console.log("GETS TO PLAYER TURN");
+            if (!enemyShips[0].isDead()) {
+                let hp = enemyShips[0].hull;
+                myShip.attack(enemyShips[0]);
+                if (hp == enemyShips[0].hull) {
+                    alert("You missed the enemies ship!");
+                } else {
+                    alert("You hit the enemy ship! Enemy's ship has " + enemyShips[0].hull + " HP left!");
+                }
+                currentTurn = 2;
+                playRound();
+            } else {
+                if(enemyShips.length > 1) {
+                    console.log("A ship should be removed: "); 
+                    currentTurn = 1;
+                    removeShip();
+                    nextMove();
+                } else {
+                    gameOver();
+                }
+            }
+        } else {
+            gameOver();
+        }
+    } else if(currentTurn == 2) {
+        if(!enemyShips[0].isDead()) {
+            if(!myShip.isDead()) {
+                let hp = myShip.hull;
+                enemyShips[0].attack(myShip);
+                if(hp == myShip.hull) {
+                    alert("The enemy missed your ship");
+                } else {
+                    alert("The enemy hit your ship. You have " + myShip.hull + " HP left.");
+                }
+                currentTurn = 1;
+                playRound();
+            } else { 
+                gameOver();
+            }
+        } else {
+            if(enemyShips.length > 1) {
+                console.log("A ship should be removed: "); 
+                removeShip();
+                currentTurn = 1;
+                nextMove();
+            } else {
+                gameOver();
+            }
+        }
+    }
+}
+
+let startGame = () => {
+    let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
+    if(attack == "attack") {
+        createShips();
+        playRound();
+    } else if(attack == "retreat") {
+        retreat();
+    }
+}
+
+startGame();

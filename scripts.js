@@ -121,7 +121,7 @@ let playRound = () => {
     if(currentTurn == 1) {
         if(!myShip.isDead()) {
             // Checks to see if the enemies ship is not dead
-            console.log("GETS TO PLAYER TURN");
+            console.log("Gets to player's turn");
             if (!enemyShips[0].isDead()) {
                 let hp = enemyShips[0].hull;
                 myShip.attack(enemyShips[0]);
@@ -134,7 +134,7 @@ let playRound = () => {
                 playRound();
             } else {
                 if(enemyShips.length > 1) {
-                    console.log("A ship should be removed: "); 
+                    console.log("A ship should be removed"); 
                     currentTurn = 1;
                     removeShip();
                     nextMove();
@@ -164,7 +164,7 @@ let playRound = () => {
             }
         } else {
             if(enemyShips.length > 1) {
-                console.log("A ship should be removed: "); 
+                console.log("A ship should be removed"); 
                 removeShip();
                 currentTurn = 1;
                 nextMove();

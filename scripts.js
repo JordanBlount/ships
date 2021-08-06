@@ -101,7 +101,7 @@ let gameOver = () => {
     // Checks to see if my ship is dead
     console.log("This game should be over.");
     if(myShip.isDead()) {
-        alert("The enemy has destroyed you!");
+        alert("sThe enemy has destroyed you!");
         resetGame();
         startGame();
     } else if(!myShip.isDead()) {
@@ -128,7 +128,7 @@ let playRound = () => {
                 if (hp == enemyShips[0].hull) {
                     alert("You missed the enemies ship!");
                 } else {
-                    alert("You hit the enemy ship! Enemy's ship has " + enemyShips[0].hull + " HP left!");
+                    alert(`${enemyShips[0].hull > 0 ? `You hit the enemy ship! The Enemy's ship has ${enemyShips[0].hull} HPs left.` : `You hit the enemy ship! The Enemy's ship was destroyed!`}`);
                 }
                 currentTurn = 2;
                 playRound();
@@ -153,7 +153,9 @@ let playRound = () => {
                 if(hp == myShip.hull) {
                     alert("The enemy missed your ship");
                 } else {
-                    alert("The enemy hit your ship. You have " + myShip.hull + " HP left.");
+                    if(myShip.hull >= 0) {
+                        alert("The enemy hit your ship. You have " + myShip.hull + " HP left.");
+                    }
                 }
                 currentTurn = 1;
                 playRound();
@@ -174,6 +176,7 @@ let playRound = () => {
 }
 
 let startGame = () => {
+    alert("Welcome to the Space Battle!");
     let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
     if(attack == "attack") {
         createShips();

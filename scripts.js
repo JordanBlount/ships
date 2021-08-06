@@ -47,8 +47,12 @@ let playRound = () => {
     // Checking to see whose turn it is
     if(currentTurn == 1 && !myShip.isDead()) {
         // Checks to see if the enemies ship is not dead
-        if(!enemyShips[0].isDead()) {
+        if(!enemyShips[0].isDead()) {  
+            let hp = enemyShips[0].hull;
             myShip.attack(enemyShips[0]);
+            if(hp == enemyShips[0]) {
+                alert("You missed this enemies ship!");
+            }
             currentTurn = 2;
             playRound();
         } else {
@@ -63,7 +67,11 @@ let playRound = () => {
         }
     } else {
         if(!myShip.isDead()) {
+            let hp = myShip.hull;
             enemyShips[0].attack(myShip);
+            if(hp == myShip.hull) {
+                alert("The enemy missed your ship");
+            }
             currentTurn = 2;
             playRound();
         } else { 
@@ -73,13 +81,20 @@ let playRound = () => {
 }
 
 let nextMove = () => {
-    let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
-    if(attack == "attack") {
+    let value = `[Current Health: ${myShip.hull}][Target Health: ${enemyShips[0].hull}][Enemies Left: ${enemyShips.length}]`;
+    let attack = prompt(value, "attack/retreat");
+    attack.toLowerCase();
+    if(attack === "attack") {
         playRound();
-    } else if(attack == "retreat") {
+    } else if(attack === "retreat") {
         retreat();
+    } else {
+        // Should only ever happen if someone puts a random value
+        nextMove();
     }
 }
+
+startGame();
 
 let startGame = () => {
     let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
@@ -136,6 +151,7 @@ let createShips = () => {
         let ship = new Ship(hull, firepower, accuracy, 0);
         enemyShips.push(ship);
     }
+    //console.log(`[Current Health: ${myShip.hull}][Target Health: ${enemyShips[0].hull}][Enemies Left: ${enemyShips.length}]`);
 }
 
 // TODO: Clean up this code

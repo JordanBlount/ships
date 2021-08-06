@@ -116,11 +116,24 @@ let retreat = () => {
     startGame();
 }
 
+let randomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;   
+}
+
+let randomFloat = (min, max) => { 
+    return Math.random() * (max - min) + min;
+}
+
 let createShips = () => {
     myShip = new Ship(20, 5, 0.7, 0);
     for(i = 0; i < 6; i++) {
-        // TODO: Add random values in here using Math.random();
-        let ship = new Ship(0, 0, 0, 0, 0);
+        // Creates 6 enemy ships
+        let hull = randomInt(3, 6);
+        let firepower = randomInt(2, 4);
+        let accuracy = randomFloat(0.6, 0.8);
+        let ship = new Ship(hull, firepower, accuracy, 0);
         enemyShips.push(ship);
     }
 }

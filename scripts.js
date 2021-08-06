@@ -32,6 +32,15 @@ class Ship {
     isDead() {
         return this.hull <= 0;
     }
+
+    // This is not how I would ideally want to do this
+    // It would be better to pass in an identifier to 
+    // specifically say this is a Mother Ship and not based
+    // on its number of shields because technically my ship
+    // could be a mother ship if I checked this
+    isMotherShip() {
+        return this.shields > 0;
+    }
 }
 
 // 1 is my turn

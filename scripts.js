@@ -8,10 +8,10 @@ class Ship {
     }
 
     attack(ship) {
+        // console.log(ship);
+        // console.log(`Opposing ship hull: ` + ship.hull)
         // Checks to see if the random number is less than or equal to 
         // the accuracy
-        console.log(ship);
-        console.log(`Opposing ship hull: ` + ship.hull)
         if(Math.random() <= this.accuracy) {
             console.log("The attack was successful " + this.firepower);
             ship.hit(this.firepower);

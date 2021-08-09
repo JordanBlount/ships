@@ -88,8 +88,8 @@ let createShips = () => {
 // TODO: Decide if I want the first value to be removed or the last.
 //       This will change up my code a little bit.
 // This could probably be done better by slicing or something to remove it.
-let removeShip = (ship) => {
-    enemyShips.shift(ship);
+let removeShip = () => {
+    enemyShips.shift();
 }
 
 let nextMove = () => {
@@ -145,7 +145,7 @@ let playRound = () => {
                 if(enemyShips.length > 1) {
                     console.log("A ship should be removed"); 
                     currentTurn = 1;
-                    removeShip(enemyShips[0]);
+                    removeShip();
                     nextMove();
                 } else {
                     gameOver();
@@ -174,7 +174,7 @@ let playRound = () => {
         } else {
             if(enemyShips.length > 1) {
                 console.log("A ship should be removed"); 
-                removeShip(enemyShips[0]);
+                removeShip();
                 currentTurn = 1;
                 nextMove();
             } else {

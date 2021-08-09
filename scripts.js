@@ -89,7 +89,7 @@ let createShips = () => {
 //       This will change up my code a little bit.
 // This could probably be done better by slicing or something to remove it.
 let removeShip = (ship) => {
-    enemyShips.shift();
+    enemyShips.shift(ship);
 }
 
 let nextMove = () => {
@@ -145,7 +145,7 @@ let playRound = () => {
                 if(enemyShips.length > 1) {
                     console.log("A ship should be removed"); 
                     currentTurn = 1;
-                    removeShip();
+                    removeShip(enemyShips[0]);
                     nextMove();
                 } else {
                     gameOver();
@@ -174,7 +174,7 @@ let playRound = () => {
         } else {
             if(enemyShips.length > 1) {
                 console.log("A ship should be removed"); 
-                removeShip();
+                removeShip(enemyShips[0]);
                 currentTurn = 1;
                 nextMove();
             } else {

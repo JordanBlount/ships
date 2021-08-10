@@ -115,7 +115,7 @@ let gameOver = () => {
         startGame();
     } else if(!myShip.isDead()) {
         alert("You have defended Earth from the enemy!");
-        alert("The USS Schwarzenegger has once again prevailed against the opponents");
+        alert("The USS Schwarzenegger has once again prevailed against the opponent.");
         alert("Maybe next time they will send someone stronger......");
         resetGame();
         startGame();
@@ -165,7 +165,7 @@ let playRound = () => {
                     alert("The enemy missed your ship");
                 } else {
                     if(myShip.hull >= 0) {
-                        alert("The enemy hit your ship for " + enemyShips[0].firepower + " . You have " + myShip.hull + " HP left.");
+                        alert("The enemy hit your ship for " + enemyShips[0].firepower + ". You have " + myShip.hull + " HP left.");
                     }
                 }
                 currentTurn = 1;

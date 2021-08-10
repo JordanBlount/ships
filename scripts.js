@@ -137,9 +137,9 @@ let playRound = () => {
                 let hp = enemyShips[0].hull;
                 myShip.attack(enemyShips[0]);
                 if (hp == enemyShips[0].hull) {
-                    alert("You missed the enemies ship!");
+                    alert("You missed the enemy's ship!");
                 } else {
-                    alert(`${enemyShips[0].hull > 0 ? `You hit the enemy ship! The Enemy's ship has ${enemyShips[0].hull} HPs left.` : `You hit the enemy ship! The Enemy's ship was destroyed!`}`);
+                    alert(`${enemyShips[0].hull > 0 ? `You hit the enemy ship! The enemy's ship has ${enemyShips[0].hull} HPs left.` : `You hit the enemy ship! The enemy's ship was destroyed!`}`);
                 }
                 currentTurn = 2;
                 playRound();
@@ -165,7 +165,7 @@ let playRound = () => {
                     alert("The enemy missed your ship");
                 } else {
                     if(myShip.hull >= 0) {
-                        alert("The enemy hit your ship. You have " + myShip.hull + " HP left.");
+                        alert("The enemy hit your ship for " + enemyShips[0].firepower + " . You have " + myShip.hull + " HP left.");
                     }
                 }
                 currentTurn = 1;

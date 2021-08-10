@@ -8,8 +8,6 @@ class Ship {
     }
 
     attack(ship) {
-        // console.log(ship);
-        // console.log(`Opposing ship hull: ` + ship.hull)
         // Checks to see if the random number is less than or equal to 
         // the accuracy
         if(Math.random() <= this.accuracy) {
@@ -58,6 +56,7 @@ let resetGame = () => {
 
 let retreat = () => {
     alert("You have chosen to retreat from the battle!");
+    alert("Maybe next time you will have the courage to face them and defend the Earth....");
     resetGame();
     startGame();
 }
@@ -76,6 +75,7 @@ let createShips = () => {
     myShip = new Ship(20, 5, 0.7, 0);
     for(i = 0; i < 6; i++) {
         // Creates 6 enemy ships
+        // Gives each value a random value for hull, firepower, accuracy
         let hull = randomInt(3, 6);
         let firepower = randomInt(2, 4);
         let accuracy = randomFloat(0.6, 0.8);
@@ -189,7 +189,7 @@ let playRound = () => {
 let startGame = () => {
     alert("Welcome to the Space Battle!");
     alert("The enemy is approaching the earth! They are coming to take over.....");
-    alert("Here comes the USS Schwarzenegger is here to intercept! LET'S GO");
+    alert("Here comes the USS Schwarzenegger to intercept! LET'S GO");
     let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
     if(attack == "attack") {
         createShips();

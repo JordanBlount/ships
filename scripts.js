@@ -127,8 +127,8 @@ let gameOver = () => {
 // has been destroyed so that it can be removed from the array
 // and the player has an option to attack/retreat
 let playRound = () => {
-    // Checking to see whose turn it is
     console.log("Enemies left: " + enemyShips.length);
+    // Checking to see whose turn it is
     if(currentTurn == 1) {
         if(!myShip.isDead()) {
             // Checks to see if the enemies ship is not dead
@@ -139,7 +139,7 @@ let playRound = () => {
                 if (hp == enemyShips[0].hull) {
                     alert("You missed the enemy's ship!");
                 } else {
-                    alert(`${enemyShips[0].hull > 0 ? `You hit the enemy ship for ${myShip.firepower}! The enemy's ship has ${enemyShips[0].hull} HPs left.` : `You hit the enemy ship for ${myShip.firepower}! The enemy's ship was destroyed!`}`);
+                    alert(`${enemyShips[0].hull > 0 ? `You hit the enemy ship [${hp} HP] for ${myShip.firepower}! The enemy ship has ${enemyShips[0].hull} HPs left.` : `You hit the enemy ship for ${myShip.firepower} and destroyed their ship!`}`);
                 }
                 currentTurn = 2;
                 playRound();
@@ -156,9 +156,13 @@ let playRound = () => {
         } else {
             gameOver();
         }
+        // The enemy's turn 
     } else if(currentTurn == 2) {
+        // Checking to see if the current enemy ship is still alive
         if(!enemyShips[0].isDead()) {
+            // Checking to see if myShip am still alive
             if(!myShip.isDead()) {
+                // The enemy attacks
                 let hp = myShip.hull;
                 enemyShips[0].attack(myShip);
                 if(hp == myShip.hull) {
@@ -168,12 +172,14 @@ let playRound = () => {
                         alert("The enemy hit your ship for " + enemyShips[0].firepower + ". You have " + myShip.hull + " HP left.");
                     }
                 }
+                // Changes to player round
                 currentTurn = 1;
                 playRound();
             } else { 
                 gameOver();
             }
         } else {
+            // Removes the enemy ship if there are still more ships available
             if(enemyShips.length > 1) {
                 console.log("A ship should be removed"); 
                 removeShip();

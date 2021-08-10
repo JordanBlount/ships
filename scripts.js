@@ -4,7 +4,8 @@ class Ship {
         this.hull = hull;
         this.firepower = firepower;
         this.accuracy = accuracy;
-        this.shields = shields;
+        // Shields are set to 0 by default. Taken from Tavaris
+        this.shields = shields || 0;
     }
 
     attack(ship) {
@@ -17,7 +18,7 @@ class Ship {
     }
 
     hit(points) {
-        // If the ship has sheilds, removes one of them
+        // If the ship has shields, it removes one of them
         if(this.shields > 0) {
             this.shields -= 1;
         } else {
@@ -58,7 +59,7 @@ let retreat = () => {
     alert("You have chosen to retreat from the battle!");
     alert("Maybe next time you will have the courage to face them and defend the Earth....");
     resetGame();
-    startGame();
+    startGame(true);
 }
 
 let randomInt = (min, max) => {
@@ -84,10 +85,7 @@ let createShips = () => {
     }
 }
 
-// TODO: Clean up this code
-// TODO: Decide if I want the first value to be removed or the last.
-//       This will change up my code a little bit.
-// This could probably be done better by slicing or something to remove it.
+// Removes the current enemy ship
 let removeShip = () => {
     enemyShips.shift();
 }
@@ -102,6 +100,7 @@ let nextMove = () => {
         retreat();
     } else {
         // Should only ever happen if someone puts a random value
+        alert("Please enter a valid option.")
         nextMove();
     }
 }
@@ -110,15 +109,17 @@ let gameOver = () => {
     // Checks to see if my ship is dead
     console.log("This game should be over.");
     if(myShip.isDead()) {
-        alert("The enemy has destroyed you!");
+        alert("The enemy has defeated you!");
+        alert("Earth is no longer safe.....");
+        alert("Maybe next time you can conquer your enemy.")
         resetGame();
-        startGame();
+        startGame(true);
     } else if(!myShip.isDead()) {
         alert("You have defended Earth from the enemy!");
         alert("The USS Schwarzenegger has once again prevailed against the opponent.");
         alert("Maybe next time they will send someone stronger......");
         resetGame();
-        startGame();
+        startGame(true);
     }
 }
 
@@ -131,7 +132,7 @@ let playRound = () => {
     // Checking to see whose turn it is
     if(currentTurn == 1) {
         if(!myShip.isDead()) {
-            // Checks to see if the enemies ship is not dead
+            // Checks to see if the enemy ship is not dead
             console.log("Gets to player's turn");
             if (!enemyShips[0].isDead()) {
                 let hp = enemyShips[0].hull;
@@ -168,9 +169,7 @@ let playRound = () => {
                 if(hp == myShip.hull) {
                     alert("The enemy missed your ship");
                 } else {
-                    if(myShip.hull >= 0) {
-                        alert("The enemy hit your ship for " + enemyShips[0].firepower + ". You have " + myShip.hull + " HP left.");
-                    }
+                    alert(`${myShip.hull > 0 ? `The enemy hit your ship for ${enemyShips[0].firepower}! You have ${myShip.hull} HPs left.` : `The enemy hit your ship for ${enemyShips[0].firepower}! You have been destroyed!`}`);
                 }
                 // Changes to player round
                 currentTurn = 1;
@@ -192,17 +191,22 @@ let playRound = () => {
     }
 }
 
-let startGame = () => {
-    alert("Welcome to the Space Battle!");
-    alert("The enemy is approaching the earth! They are coming to take over.....");
-    alert("Here comes the USS Schwarzenegger to intercept! LET'S GO");
+let startGame = (prompts) => {
+    if(prompts) {
+        alert("Welcome to the Space Battle!");
+        alert("The enemy is approaching the earth! They are coming to take over.....");
+        alert("Here comes the USS Schwarzenegger to intercept! LET'S GO");
+    }
     let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
     if(attack == "attack") {
         createShips();
         playRound();
     } else if(attack == "retreat") {
         retreat();
+    } else {
+        alert("Please type a valid option");
+        startGame(false);
     }
 }
 
-startGame();
+startGame(true);

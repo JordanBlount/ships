@@ -110,11 +110,13 @@ let gameOver = () => {
     // Checks to see if my ship is dead
     console.log("This game should be over.");
     if(myShip.isDead()) {
-        alert("sThe enemy has destroyed you!");
+        alert("The enemy has destroyed you!");
         resetGame();
         startGame();
     } else if(!myShip.isDead()) {
         alert("You have defended Earth from the enemy!");
+        alert("The USS Schwarzenegger has once again prevailed against the opponents");
+        alert("Maybe next time they will send someone stronger......");
         resetGame();
         startGame();
     }
@@ -186,6 +188,8 @@ let playRound = () => {
 
 let startGame = () => {
     alert("Welcome to the Space Battle!");
+    alert("The enemy is approaching the earth! They are coming to take over.....");
+    alert("Here comes the USS Schwarzenegger is here to intercept! LET'S GO");
     let attack = prompt("Would you like to attack/retreat? ", "attack/retreat");
     if(attack == "attack") {
         createShips();
